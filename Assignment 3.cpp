@@ -116,25 +116,25 @@ class enemy
 //    initiative 10
 //}
 //
-//class item
-//{
-//    virtual string name
-//    virtual int value
-//};
-//
-//class weapon : public item
-//{
-//    int damage_bonus
-//};
-//class consumable : public item
-//{
-//    int uses
-//};
-//class wearables : public item
-//{
-//    int initiative_bonus
-//};
-//
+class item
+{
+	string name;
+	int value;
+};
+
+class weapon : public item
+{
+	int damage_bonus;
+};
+class consumable : public item
+{
+	int uses;
+};
+class wearables : public item
+{
+	int initiative_bonus;
+};
+
 //Main Function
 //{
 //
