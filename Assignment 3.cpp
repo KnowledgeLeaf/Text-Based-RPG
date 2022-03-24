@@ -135,9 +135,12 @@ class wearables : public item
 	int initiative_bonus;
 };
 
-//Main Function
-//{
-//
+int diceRoll();
+
+int main()
+{
+	srand(static_cast<unsigned int>(time(0)));
+
 //intro: 
 //
 //    cin name
@@ -271,10 +274,10 @@ class wearables : public item
 //            break;
 //            }
 //    } while player health > 0 && player win = false
-//}
-//
-//battle function(enemy type)
-//{
+}
+
+void fight(enemy)
+{
 //    player roll initiative die 
 //
 //    do loop for turns
@@ -293,7 +296,18 @@ class wearables : public item
 //    } while (player health > 0 && enemy health > 0)
 //    Congratz player! Or Tell them they dead.
 //    Add loot to inventory
-//}
+}
+
+int diceRoll()
+{
+	int randomNumber;
+	int dieRoll;
+	
+	randomNumber = rand();
+	dieRoll = (randomNumber % 20) + 1;
+
+	return dieRoll;
+}
 //
 //check backpack function
 //{
