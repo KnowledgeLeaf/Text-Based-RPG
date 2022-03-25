@@ -54,17 +54,17 @@
 
 using namespace std;
 
-class player
+class Player
 {
 	public:
 	string name;
-	vector<ItemSlot> inventory;
 	int age;
-	role role;
-	bool equipped;
+	Role role;
+	Wearable equippedWearable;
+	Weapon equippedWeapon;
+	vector<ItemSlot> inventory;
 };
-
-class role
+class Role
 {
 public:
 	int health;
@@ -79,6 +79,12 @@ public:
 	Item item;
 	int qty;
 };
+ItemSlot::ItemSlot(string name, int value, int quantity)
+{
+	item.name = name;
+	item.value = value;
+	qty = quantity;
+}
 class Item
 {
 public:
@@ -86,14 +92,39 @@ public:
 	int value;
 };
 
-class enemy
+class Enemy
 {
+	int mDamage;
+public:
+	Enemy(string name = "Enemy", int initiative = 0, int damage = 0);
     string name;
-    int health;
-    int damage;
     int initiative;
+	void virtual attack() const;
 };
-//
+Enemy::Enemy(string name, int initiative, int damage) :
+
+	mDamage(damage)
+{}
+void Enemy::attack() const
+{
+	cout << "Enemy hits you for " << mDamage << "damage." << endl;
+}
+
+class Thief : public Enemy
+{
+	int hp;
+	Thief(string name, int health, int initiative, int damage);
+	void attack() const;
+};
+Thief::Thief(string name, int initiative, int damage, int health) :
+	hp(health)
+{
+	Enemy(name, initiative, damage);
+}
+void Thief::attack() const
+{
+	Enemy::attack();
+}
 //enemy::thief
 //{
 //    name "Thief"
@@ -111,31 +142,47 @@ class enemy
 //enemy::brute
 //{
 //    name "Brute"
-//    health 25
+//    health 20
 //    damage 8-10 (randomly generated)
 //    initiative 10
+//	  1 damage reduction (armor)
 //}
 //
-class item
+class Item
 {
+public:
 	string name;
 	int value;
+	void virtual discard();
 };
 
-class weapon : public item
+class Weapon : public Item
 {
+public:
 	int damage_bonus;
+	bool equipped;
+	void discard();
 };
-class consumable : public item
+class Consumable : public Item
 {
+public:
 	int uses;
+	void use();
+	void discard();
 };
-class wearables : public item
+class Wearable : public Item
 {
+public:
 	int initiative_bonus;
+	bool equipped;
+	void discard();
 };
 
-int diceRoll();
+int diceInitiative();
+void attack();
+void fight(Enemy enemy, Player player, Role role, Wearable wearable);
+void use();
+void discard();
 
 int main()
 {
@@ -274,31 +321,58 @@ int main()
 //            break;
 //            }
 //    } while player health > 0 && player win = false
+	return 0;
 }
 
-void fight(enemy)
+void fight(Enemy enemy, Player player, Role role, Wearable wearable)
 {
-//    player roll initiative die 
-//
-//    do loop for turns
-//    {
-//        if ((enemy initiative > player intiative) || (player turn had == true) && (enemy health > 0))
-//            {
-//            do enemy turn
-//            player turn had = false
-//            }
-//
-//        else if (player turn had == false && player health > 0)
-//            {
-//            do player turn
-//            player turn had = true
-//            }
-//    } while (player health > 0 && enemy health > 0)
+	int dice;
+	int diceInitiative();
+	int playerInitiative;
+	bool playerTurnHad;
+	int playerChoice;
+
+		dice = diceInitiative();
+
+	playerInitiative = (dice + role.initiative_bonus + wearable.initiative_bonus);
+	
+	do
+    {
+        if ((enemy.initiative > playerInitiative) || (playerTurnHad == true) && (enemy.health > 0))
+        {
+			player.role.health -= enemy.damage;
+			cout << "Enemy hits you for " << enemy.damage << "damage." << endl;
+			playerTurnHad = false;
+        }
+
+        if (playerTurnHad == false && player.role.health > 0)
+        {
+//			do player turn
+			cout << "1. Attack\n 2. Use Item\n 3. Run Away!\n";
+			cin >> playerChoice;
+
+			switch (playerChoice)
+			{
+				case 1:
+					cout << "You hit " <<
+					break;
+				case 2:
+			
+
+					break;
+				case 3:
+			
+					break;
+			}
+
+			playerTurnHad = true;
+        }
+	} while (player.role.health > 0 && enemy.health > 0);
 //    Congratz player! Or Tell them they dead.
 //    Add loot to inventory
 }
 
-int diceRoll()
+int diceInitiative()
 {
 	int randomNumber;
 	int dieRoll;
@@ -308,7 +382,11 @@ int diceRoll()
 
 	return dieRoll;
 }
-//
+
+void attack()
+{
+
+}
 //check backpack function
 //{
 //    (Copy inventory system from Assignment 1)
