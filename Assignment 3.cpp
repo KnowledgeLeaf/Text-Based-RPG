@@ -122,7 +122,7 @@ public:
 	Role role;
 	Wearable equippedWearable;
 	Weapon equippedWeapon;
-	vector<ItemSlot> inventory;
+	vector<ItemSlot> playerInventory;
 };
 class Thief : public Enemy
 {
@@ -213,7 +213,6 @@ int main()
 	int choice = 0;
 
 	vector<ItemSlot> merchantInventory;
-	vector<ItemSlot> playerInventory;
 
 	Item pain_meds;
 	Item fancy_book;
@@ -347,7 +346,7 @@ int main()
 	{
 		for (;;)
 		{
-			cout << "\n0 - I want to make a purchase!\n1 - I want to sell my items!\n2 - I require other services.\n3 - I would like to leave!\n\nChoice: " << flush;
+			cout << "\n0 - I want to make a purchase!\n1 - I want to sell my items!\n2 - I would like to leave!\n\nChoice: " << flush;
 			cin >> business;
 			if (cin.fail())
 			{
