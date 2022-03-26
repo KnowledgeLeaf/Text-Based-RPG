@@ -54,16 +54,7 @@
 
 using namespace std;
 
-class Player
-{
-	public:
-	string name;
-	int age;
-	Role role;
-	Wearable equippedWearable;
-	Weapon equippedWeapon;
-	vector<ItemSlot> inventory;
-};
+
 class Role
 {
 public:
@@ -72,82 +63,6 @@ public:
 	int initiative_bonus;
 };
 
-class ItemSlot
-{
-public:
-	ItemSlot(string name = "Empty", int value = 0, int quantity = 0);
-	Item item;
-	int qty;
-};
-ItemSlot::ItemSlot(string name, int value, int quantity)
-{
-	item.name = name;
-	item.value = value;
-	qty = quantity;
-}
-class Item
-{
-public:
-	string name;
-	int value;
-};
-
-class Enemy
-{
-	int mDamage;
-public:
-	Enemy(string name = "Enemy", int initiative = 0, int damage = 0);
-    string name;
-    int initiative;
-	void virtual attack() const;
-};
-Enemy::Enemy(string name, int initiative, int damage) :
-
-	mDamage(damage)
-{}
-void Enemy::attack() const
-{
-	cout << "Enemy hits you for " << mDamage << "damage." << endl;
-}
-
-class Thief : public Enemy
-{
-	int hp;
-	Thief(string name, int health, int initiative, int damage);
-	void attack() const;
-};
-Thief::Thief(string name, int initiative, int damage, int health) :
-	hp(health)
-{
-	Enemy(name, initiative, damage);
-}
-void Thief::attack() const
-{
-	Enemy::attack();
-}
-//enemy::thief
-//{
-//    name "Thief"
-//    health 18
-//    damage 4-6 (randomly generated)
-//    initiative 15
-//}
-//enemy::learned
-//{
-//    name "Learned"
-//    health 20
-//    damage 6-8 (randomly generated)
-//    initiative 12
-//}
-//enemy::brute
-//{
-//    name "Brute"
-//    health 20
-//    damage 8-10 (randomly generated)
-//    initiative 10
-//	  1 damage reduction (armor)
-//}
-//
 class Item
 {
 public:
@@ -163,6 +78,93 @@ public:
 	bool equipped;
 	void discard();
 };
+
+class ItemSlot
+{
+public:
+	ItemSlot(string name = "Empty", int value = 0, int quantity = 0);
+	Item item;
+	int qty;
+};
+ItemSlot::ItemSlot(string name, int value, int quantity)
+{
+	item.name = name;
+	item.value = value;
+	qty = quantity;
+}
+
+
+class Enemy
+{
+	int mDamage;
+public:
+	Enemy(string name = "Enemy", int initiative = 0, int damage = 0);
+    string name;
+    int initiative;
+	void virtual attack() const;
+};
+
+Enemy::Enemy(string name, int initiative, int damage) :
+
+	mDamage(damage)
+{}
+
+void Enemy::attack() const
+{
+	cout << "Enemy hits you for " << mDamage << "damage." << endl;
+}
+
+class Player
+{
+public:
+	string name;
+	int age;
+	Role role;
+	Wearable equippedWearable;
+	Weapon equippedWeapon;
+	vector<ItemSlot> inventory;
+};
+class Thief : public Enemy
+{
+	int hp;
+	Thief(string name, int health, int initiative, int damage);
+	void attack() const;
+};
+Thief::Thief(string name, int initiative, int damage, int health) :
+	hp(health)
+{
+	Enemy(name, initiative, damage);
+}
+void Thief::attack() const
+{
+	Enemy::attack();
+}
+Enemy::Thief
+{
+ string = "Thief";
+ int 18;
+damage 4 - 6 (randomly generated);
+initiative 15;
+}
+Enemy::learned
+{
+	name "Learned";
+health 20;
+damage 6 - 8 (randomly generated);
+initiative 12;
+}
+Enemy::brute
+{
+	name "Brute";
+health 20;
+damage 8 - 10 (randomly generated);
+initiative 10;
+1 damage reduction(armor);
+}
+
+
+
+
 class Consumable : public Item
 {
 public:
@@ -178,26 +180,106 @@ public:
 	void discard();
 };
 
+class Player
+{
+public:
+	int money;
+};
+
+class Merchant
+{
+public:
+	int money;
+};
+
+
 int diceInitiative();
 void attack();
 void fight(Enemy enemy, Player player, Role role, Wearable wearable);
 void use();
 void discard();
+void displayInventory(vector<ItemSlot>* inventory);
+void invTransaction(vector<ItemSlot>* inventory, vector<ItemSlot>* inventory2, int choice);
+void printName(string playerFirstName, string playerLastName);
 
 int main()
 {
 	srand(static_cast<unsigned int>(time(0)));
+	unsigned int business = 0;
+	string pFN;
+	string pLN;
+	int age;
+	char yesno = 'n';
+	int choice = 0;
+
+	vector<ItemSlot> merchantInventory;
+	vector<ItemSlot> playerInventory;
+
+	Item pain_meds;
+	Item fancy_book;
+	Item dagger;
+	Item smokebomb;
+	Item boots;
+	Item water_bucket;
+
+	pain_meds.name = "Pain Meds";
+	pain_meds.value = 100;
+	fancy_book.name = "Fancy book";
+	fancy_book.value = 100;
+	dagger.name = "Dagger";
+	dagger.value = 100;
+	smokebomb.name = "Smokebomb";
+	smokebomb.value = 100;
+	boots.name = "Boots";
+	boots.value = 100;
+	water_bucket.name = "Bow";
+	water_bucket.value = 100;
+
+	ItemSlot mSlot1;
+	ItemSlot mSlot2;
+	ItemSlot mSlot3;
+	ItemSlot mSlot4;
+	ItemSlot mSlot5;
+	ItemSlot pSlot1;
+	ItemSlot pSlot2;
+	ItemSlot pSlot3;
+
+	mSlot1.item = pain_meds;
+	mSlot1.qty = 2;
+	mSlot2.item = fancy_book;
+	mSlot2.qty = 1;
+	mSlot3.item = dagger;
+	mSlot3.qty = 1;
+	mSlot4.item = smokebomb;
+	mSlot4.qty = 2;
+	mSlot5.item = boots;
+	mSlot5.qty = 1;
+	pSlot1.item = water_bucket;
+	pSlot1.qty = 0;
+	Player pGold;
+	pGold.money = 100;
+	Merchant mGold;
+	mGold.money = 300;
+
+	merchantInventory.push_back(mSlot1);
+	merchantInventory.push_back(mSlot2);
+	merchantInventory.push_back(mSlot3);
+	merchantInventory.push_back(mSlot4);
+	merchantInventory.push_back(mSlot5);
+	playerInventory.push_back(pSlot1);
+	playerInventory.push_back(pSlot2);
+	playerInventory.push_back(pSlot3);
 
 //intro: 
 //
-//    cin name
-//    cout list of classes
-//        rogue
-//        wizard
-//        fighter
-//    cin role (royal training extra beefy enemies sorta)
-//    cin age
-//
+	cout << "What is your first name?"<< endl;
+	cin >> pFN;
+	cout << "What is your last name?" << endl;
+	cin >> pLN;
+	cout << "What class would you like to be?\nList of classes:\n rogue\n\twizard\n\tfighter";
+	cin >> Role;
+	cout << "Lastly, how old are you?";
+	cin >> age;
 //    do loop
 //    {
 //        cout choices you made above
@@ -257,7 +339,172 @@ int main()
 //            choice 2 (buy pain meds)
 //            {
 //                Enter shop mode
-//                switch choices for buying/selling/making money (Copy Paste from Assignment 1 switch items)
+//                switch case 0:
+	cout << "\nShopkeep: Well hi, ";
+	printName(pFN, pLN);
+	cout << "! How can I help you today? \n ";
+	do
+	{
+		for (;;)
+		{
+			cout << "\n0 - I want to make a purchase!\n1 - I want to sell my items!\n2 - I require other services.\n3 - I would like to leave!\n\nChoice: " << flush;
+			cin >> business;
+			if (cin.fail())
+			{
+				cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+				continue;
+			}
+			if (business < 0 || business > 3)
+			{
+				cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
+				continue;
+			}
+			break;
+		}
+		switch (business)
+		{
+		case 0:
+			cout << "\nShopkeep: A paying customer? Of course, happy to help!\nHave a look at my wares!\n\nWares:\n";
+			displayInventory(&merchantInventory);
+
+			for (;;)
+			{
+				cout << "What would you like to buy? (0 to Exit) " << flush;
+				cin >> choice;
+				if (cin.fail())
+				{
+					cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+					continue;
+				}
+				if (choice < 0 || choice > merchantInventory.size())
+				{
+					cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
+					continue;
+				}
+				break;
+			}
+
+			choice -= 1;
+
+			if (choice < merchantInventory.size() || choice > 0)
+			{
+				if (merchantInventory[choice].qty == 0)
+				{
+					cout << "\nShopkeep: Outta luck, wish I had more to sell you, but I don't.\n\nCan I help you with something else?\n";
+					break;
+				}
+
+				cout << "\nWould you like to buy the " << merchantInventory[choice].item.name << "?" << endl;
+				cout << "Your current gold: " << pGold.money << " $" << endl;
+				cout << "This " << merchantInventory[choice].item.name << " costs " << merchantInventory[choice].item.value << "$" << endl;
+
+				if (pGold.money < merchantInventory[choice].item.value)
+				{
+					cout << "Sorry it looks like you don't have enough gold for that.\n\nCan I help you with something else?\n";
+					break;
+				}
+
+				cout << "Will you buy this " << merchantInventory[choice].item.name << "? (y/n)\n" << endl;
+				cin >> yesno;
+
+				if (yesno == 'y')
+				{
+					cout << "\nYou bought the " << merchantInventory[choice].item.name << "!" << endl;
+					pGold.money -= merchantInventory[choice].item.value;
+					merchantInventory[choice].qty -= 1;
+					invTransaction(&playerInventory, &merchantInventory, choice);
+					cout << "your remaining gold balance is : " << pGold.money << "$" << endl;
+				}
+				else
+				{
+					cout << "you did not buy the " << merchantInventory[choice].item.name << "." << endl;
+				}
+			}
+
+			cout << "\nIs there anything else I can help you with?\n\n";
+			break;
+
+		case 1:
+			cout << "\nShopkeep: I'm always happy to buy stuff you don't need, materials are getting scarce here.\n";
+			cout << "\nYour items:\n";
+			displayInventory(&playerInventory);
+
+			for (;;)
+			{
+				cout << "Which item do you want to sell? (0 To Exit) " << flush;
+				cin >> choice;
+
+				if (cin.fail())
+				{
+					cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+					continue;
+				}
+
+				if (choice < 0 || choice > playerInventory.size())
+				{
+					cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
+					continue;
+				}
+
+				break;
+			}
+
+			choice -= 1;
+
+			if (choice < playerInventory.size() || choice > 0)
+			{
+				cout << "\nWould you like to sell the " << playerInventory[choice].item.name << "?" << endl;
+				cout << "This " << playerInventory[choice].item.name << " will pay " << playerInventory[choice].item.value / 2 << "$" << endl;
+				cout << "Merchant gold: " << mGold.money << "$" << endl;
+				cout << "Will you sell this " << playerInventory[choice].item.name << "? (y/n)" << endl;
+				cin >> yesno;
+
+				if (yesno == 'y')
+				{
+					cout << "You sold the " << playerInventory[choice].item.name << "!" << endl;
+					pGold.money += playerInventory[choice].item.value / 2;
+					cout << "your remaining gold balance is : " << pGold.money << "$" << endl;
+					invTransaction(&merchantInventory, &playerInventory, choice);
+
+					if (playerInventory[choice].qty > 1)
+					{
+						playerInventory[choice].qty -= 1;
+					}
+					else
+					{
+						vector<ItemSlot>::iterator eraser;
+						eraser = playerInventory.begin() + choice;
+						playerInventory.erase(eraser);
+					}
+				}
+				else
+				{
+					cout << "You did not sell the " << playerInventory[choice].item.name << "." << endl;
+				}
+			}
+
+			cout << "\nIs there anything else I can help you with?\n\n";
+			break;
+
+		case 2:
+			cout << "\nShopkeep: Well, if you change your mind, you know where to find me.\n";
+			break;
+
+		default:
+			break;
+
+		} while (business < 0 && business > 1);
+
+	} while (business != 2);
+	
+
+//	choices for buying/selling/making money (Copy Paste from Assignment 1 switch items)
 //                when you leave shop
 //
 //            if player leaves shop and has fancy book (inventory find item from assignment 1)
@@ -341,7 +588,7 @@ void fight(Enemy enemy, Player player, Role role, Wearable wearable)
         if ((enemy.initiative > playerInitiative) || (playerTurnHad == true) && (enemy.health > 0))
         {
 			player.role.health -= enemy.damage;
-			cout << "Enemy hits you for " << enemy.damage << "damage." << endl;
+			cout << "Enemy hits you for " << enemy.damage << " damage." << endl;
 			playerTurnHad = false;
         }
 
@@ -405,7 +652,37 @@ void attack()
 //
 //
 //merchant inventory
-//    pain meds
-//    fancy book
-//    dagger
-//    smokebomb (skip fight ie set enemy healkth = 0)
+//		pain meds
+//		fancy book
+//		dagger
+//		smokebomb (skip fight ie set enemy healkth = 0)
+//		boots
+void invTransaction(vector<ItemSlot>* inventory, vector<ItemSlot>* inventory2, int choice)
+{
+	vector<ItemSlot>::iterator iter;
+	bool itemFound = false;
+
+	for (iter = (*inventory).begin(); iter != (*inventory).end(); iter++)
+	{
+		if (iter->item.name == (*inventory2)[choice].item.name)
+		{
+			(*inventory)[distance((*inventory).begin(), iter)].qty++;
+			itemFound = true;
+		}
+	}
+
+	if (!itemFound)
+	{
+		ItemSlot slot;
+		slot.item.name = (*inventory2)[choice].item.name;
+		slot.item.value = (*inventory2)[choice].item.value;
+		slot.qty = 1;
+		inventory->push_back(slot);
+	}
+}
+void printName(string playerFirstName, string playerLastName)
+{
+	cout << playerFirstName;
+	cout << " ";
+	cout << playerLastName;
+}
