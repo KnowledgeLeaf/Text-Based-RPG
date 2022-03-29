@@ -54,7 +54,31 @@
 
 using namespace std;
 
+class Player
+{
+public:
+	string name;
+	int age;
+	int money;
+	Role role;
+	Wearable equippedWearable;
+	Weapon equippedWeapon;
+};
 
+class Consumable : public Item
+{
+public:
+	int uses;
+	void use();
+	void discard();
+};
+class Wearable : public Item
+{
+public:
+	int initiative_bonus;
+	bool equipped;
+	void discard();
+};
 class Role
 {
 public:
@@ -93,7 +117,6 @@ ItemSlot::ItemSlot(string name, int value, int quantity)
 	qty = quantity;
 }
 
-
 class Enemy
 {
 	int mDamage;
@@ -101,90 +124,56 @@ public:
 	Enemy(string name = "Enemy", int initiative = 0, int damage = 0);
     string name;
     int initiative;
-	void virtual attack() const;
+	void virtual attack(int health) const;
 };
-
 Enemy::Enemy(string name, int initiative, int damage) :
 
 	mDamage(damage)
 {}
-
-void Enemy::attack() const
+void Enemy::attack(int health) const
 {
 	cout << "Enemy hits you for " << mDamage << "damage." << endl;
+	(health) -= mDamage;
 }
 
-class Player
-{
-public:
-	string name;
-	int age;
-	Role role;
-	Wearable equippedWearable;
-	Weapon equippedWeapon;
-	vector<ItemSlot> playerInventory;
-};
 class Thief : public Enemy
 {
+public:
 	int hp;
 	Thief(string name, int health, int initiative, int damage);
-	void attack() const;
+	void attack(int health) const;
 };
 Thief::Thief(string name, int initiative, int damage, int health) :
 	hp(health)
 {
 	Enemy(name, initiative, damage);
 }
-void Thief::attack() const
+void Thief::attack(int health) const
 {
-	Enemy::attack();
+	Enemy::attack(health);
 }
-Enemy::Thief
-{
- string = "Thief";
- int 18;
-damage 4 - 6 (randomly generated);
-initiative 15;
-}
-Enemy::learned
-{
-	name "Learned";
-health 20;
-damage 6 - 8 (randomly generated);
-initiative 12;
-}
-Enemy::brute
-{
-	name "Brute";
-health 20;
-damage 8 - 10 (randomly generated);
-initiative 10;
-1 damage reduction(armor);
-}
-
-
-
-
-class Consumable : public Item
-{
-public:
-	int uses;
-	void use();
-	void discard();
-};
-class Wearable : public Item
-{
-public:
-	int initiative_bonus;
-	bool equipped;
-	void discard();
-};
-
-class Player
-{
-public:
-	int money;
-};
+//Enemy::Thief
+//{
+// string = "Thief";
+// health 18;
+// damage 4 - 6 (randomly generated);
+// initiative 15;
+//}
+//Enemy::learned
+//{
+//	name "Learned";
+//health 20;
+//damage 6 - 8 (randomly generated);
+//initiative 12;
+//}
+//Enemy::brute
+//{
+//	name "Brute";
+//health 20;
+//damage 8 - 10 (randomly generated);
+//initiative 10;
+//1 damage reduction(armor);
+//}
 
 class Merchant
 {
@@ -213,6 +202,7 @@ int main()
 	int choice = 0;
 
 	vector<ItemSlot> merchantInventory;
+	vector<ItemSlot> playerInventory;
 
 	Item pain_meds;
 	Item fancy_book;
@@ -268,6 +258,8 @@ int main()
 	playerInventory.push_back(pSlot1);
 	playerInventory.push_back(pSlot2);
 	playerInventory.push_back(pSlot3);
+
+	Thief TheThief("Thief", 15, 4, 18);
 
 //intro: 
 //
@@ -581,13 +573,12 @@ void fight(Enemy enemy, Player player, Role role, Wearable wearable)
 		dice = diceInitiative();
 
 	playerInitiative = (dice + role.initiative_bonus + wearable.initiative_bonus);
-	
+
 	do
     {
         if ((enemy.initiative > playerInitiative) || (playerTurnHad == true) && (enemy.health > 0))
         {
-			player.role.health -= enemy.damage;
-			cout << "Enemy hits you for " << enemy.damage << " damage." << endl;
+			enemy.attack(role.health);
 			playerTurnHad = false;
         }
 
