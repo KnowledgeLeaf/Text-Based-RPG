@@ -69,14 +69,14 @@ public:
 class Wearable : public Item
 {
 public:
-	int initiative_bonus;
-	bool equipped;
+	int initiative_bonus = 0;
+	bool equipped = true;
 };
 class Weapon : public Item
 {
 public:
-	int damage_bonus;
-	bool equipped;
+	int damage_bonus = 0;
+	bool equipped = true;
 };
 
 class ItemSlot
@@ -154,7 +154,7 @@ public:
 };
 
 int diceInitiative();
-void pAttack();
+void pAttack(Enemy* enemy, Player* player);
 void fight(Enemy enemy, Player player, Role role, Wearable wearable);
 void use();
 void discard();
@@ -219,7 +219,12 @@ int main()
 
 	Player player;
 	Merchant merchant;
-	
+
+	Weapon Fist;
+	player.equippedWeapon = Fist;
+
+	Wearable Crocks;
+	player.equippedWearable = Crocks;
 
 	merchant.inventory.push_back(mSlot1);
 	merchant.inventory.push_back(mSlot2);
@@ -568,19 +573,18 @@ void fight(Enemy enemy, Player player, Role role, Wearable wearable)
 				case 1:
 					pAttack(&enemy, &player);
 					break;
-
 				case 2:
-					backpack(&player.inventory);
-
-					break;
+					backpack(&player.inventory, &player);
+					continue;
 				case 3:
-					
+					break;
+				default:
 					break;
 			}
 			cout << "Turn change!" << endl;
 			playerTurnHad = true;
         }
-	} while (player.role.health > 0 && enemy.health > 0);
+	} while (player.role.health > 0 && enemy.health > 0 && playerChoice != 3);
 	//    Congratz player! Or Tell them they dead.
 	//    Add loot to inventory
 }
@@ -621,10 +625,11 @@ void displayInventory(vector<ItemSlot>* inventory)
 		}
 	}
 }
-
-void backpack(vector<ItemSlot>* inventory)
+// Sample: backpack(player.inventory, player, Fist, Crocks)
+void backpack(vector<ItemSlot>* inventory, Player* player, Weapon* defaultWeapon, Wearable* defaultWearable)
 {
 	int pick;
+
 	do{
 
 		for (int i = 0; i < inventory->size(); i++)
@@ -635,9 +640,49 @@ void backpack(vector<ItemSlot>* inventory)
 		}
 	 
 		cin >> pick;
-		cout << "1. Equip\n 2. Use\n 3. Discard" << endl;
-		cout << "0. Go back" << endl;
+		if (pick > 0 && pick < inventory->size())
+		{
+			cout << (*inventory)[pick].item.name << endl << (*inventory)[pick].item.value << endl << (*inventory)[pick].qty << endl;
+			cout << "1. Equip/Unequip\n 2. Use\n 3. Discard" << endl;
+			cout << "0. Go back" << endl;
 
+			switch (pick)
+			{
+			case 1:
+				if ((*inventory)[pick].item.name == "Dagger" && (*player).equippedWeapon.name == "Dagger")
+				{
+					cout << "You put the dagger back into your backpack" << endl;
+					(*player).equippedWeapon = *defaultWeapon;
+				}
+				else if ((*inventory)[pick].item.name == "Boots" && (*player).equippedWeapon.name == "Boots")
+				{
+					cout << "You put the boots back into your backpack" << endl;
+					(*player).equippedWearable = *defaultWearable;
+				}
+				else if ((*inventory)[pick].item.name == "Dagger" || (*inventory)[pick].item.name == "Boots")
+				{
+
+				}
+				else
+				{
+					break;
+				}
+			case 2:
+
+				break;
+
+			case 3:
+
+				break;
+
+			default:
+				break;
+			}
+		}
+		else
+		{
+			break;
+		}
 	} while (pick > 0 && pick < inventory->size());
 }
 
