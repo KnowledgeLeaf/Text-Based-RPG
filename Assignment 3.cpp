@@ -153,35 +153,12 @@ void Thief::attack(int health) const
 {
 	Enemy::attack(health);
 }
-//Enemy::Thief
-//{
-// string = "Thief";
-// health 18;
-// damage 4 - 6 (randomly generated);
-// initiative 15;
-//}
-//Enemy::learned
-//{
-//	name "Learned";
-//health 20;
-//damage 6 - 8 (randomly generated);
-//initiative 12;
-//}
-//Enemy::brute
-//{
-//	name "Brute";
-//health 20;
-//damage 8 - 10 (randomly generated);
-//initiative 10;
-//1 damage reduction(armor);
-//}
 
 class Merchant
 {
 public:
 	int money;
 };
-
 
 int diceInitiative();
 void attack();
@@ -261,6 +238,7 @@ int main()
 	playerInventory.push_back(pSlot3);
 
 	Thief TheThief("Thief", 15, 4, 18);
+//	Learned etc
 
 //intro: 
 //
@@ -496,11 +474,10 @@ int main()
 
 	} while (business != 2);
 	
-
-//	choices for buying/selling/making money (Copy Paste from Assignment 1 switch items)
 //                when you leave shop
 //
-//            if player leaves shop and has fancy book (inventory find item from assignment 1)
+//          !!!!!!!!!!!!!!!!!!!!! find item goes here!!!!!!!!!!!!!!
+//  if player leaves shop and has fancy book (inventory find item from assignment 1)
 //            {
 //            encounter scholarly fellow
 //            riddle:
@@ -626,9 +603,23 @@ void attack()
 {
 
 }
-//check backpack function
-//{
-//    (Copy inventory system from Assignment 1)
+void displayInventory(vector<ItemSlot>* inventory)
+{
+	for (int i = 0; i < inventory->size(); i++)
+	{
+		cout << (i + 1) << ": " << (*inventory)[i].item.name << endl;
+		cout << "\tValue: " << (*inventory)[i].item.value << endl;
+
+		if ((*inventory)[i].qty == 0)
+		{
+			cout << "\tQuantity: Out Of Stock" << endl << endl;
+		}
+		else
+		{
+			cout << "\tQuantity: " << (*inventory)[i].qty << endl << endl;
+		}
+	}
+}
 //    use item option
 //    discard item option
 //}
@@ -678,3 +669,26 @@ void printName(string playerFirstName, string playerLastName)
 	cout << " ";
 	cout << playerLastName;
 }
+
+//Enemy::Thief
+//{
+// string = "Thief";
+// health 18;
+// damage 4 - 6 (randomly generated);
+// initiative 15;
+//}
+//Enemy::learned
+//{
+//	name "Learned";
+//health 20;
+//damage 6 - 8 (randomly generated);
+//initiative 12;
+//}
+//Enemy::brute
+//{
+//	name "Brute";
+//health 20;
+//damage 8 - 10 (randomly generated);
+//initiative 10;
+//1 damage reduction(armor);
+//}
