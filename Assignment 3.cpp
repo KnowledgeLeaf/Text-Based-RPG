@@ -148,6 +148,7 @@ Thief::Thief(string name, int initiative, int damage, int health) :
 {
 	Enemy(name, initiative, damage);
 }
+//~~~~~~~~~~~~~~~~~~~ V Needs to be dereferenced? V ~~~~~~~~~~~~~~~~~~~~~~~~
 void Thief::attack(int health) const
 {
 	Enemy::attack(health);
@@ -268,6 +269,7 @@ int main()
 	cout << "What is your last name?" << endl;
 	cin >> pLN;
 	cout << "What class would you like to be?\nList of classes:\n rogue\n\twizard\n\tfighter";
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Role needs to be changed?~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	cin >> Role;
 	cout << "Lastly, how old are you?";
 	cin >> age;
@@ -561,7 +563,7 @@ int main()
 //    } while player health > 0 && player win = false
 	return 0;
 }
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~Enemy.health needs to change to something else, but I'm not sure what~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void fight(Enemy enemy, Player player, Role role, Wearable wearable)
 {
 	int dice;
