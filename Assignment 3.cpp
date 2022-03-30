@@ -98,6 +98,7 @@ class Role
 public:
 	string name;
 	int health;
+	int maxHealth;
 	int damage;
 	int initiative_bonus;
 };
@@ -153,7 +154,7 @@ public:
 };
 
 int diceInitiative();
-void attack();
+void pAttack();
 void fight(Enemy enemy, Player player, Role role, Wearable wearable);
 void use();
 void discard();
@@ -161,6 +162,7 @@ void displayInventory(vector<ItemSlot>* inventory);
 void invTransaction(vector<ItemSlot>* inventory, vector<ItemSlot>* inventory2, int choice);
 void printName(string playerFirstName, string playerLastName);
 void classSelect(string role, Player player);
+void fillHealth(Player* player);
 
 int main()
 {
@@ -243,9 +245,11 @@ int main()
 	cout << "Lastly, how old are you?\n";
 	cin >> age;
 	player.age = age;
-//    do loop
-//    {
+
+	do{
+    
 //        cout choices you made above
+		fillHealth(&player);
 //
 //        cout: you are a princess sleeping in bed to wake up uncomfortable and decide it might be
 //              best to do something about it.
@@ -529,7 +533,7 @@ int main()
 //            default:
 //            break;
 //            }
-//    } while player health > 0 && player win = false
+	} while (player.role.health > 0 && player.win = false);
 	return 0;
 }
 
@@ -562,14 +566,15 @@ void fight(Enemy enemy, Player player, Role role, Wearable wearable)
 			switch (playerChoice)
 			{
 				case 1:
-					cout << "You hit " << enemy.name << "for " << player.role.damage + player.equippedWeapon.damage_bonus << endl;
+					pAttack(&enemy, &player);
 					break;
+
 				case 2:
-			
+					backpack(&player.inventory);
 
 					break;
 				case 3:
-			
+					
 					break;
 			}
 			cout << "Turn change!" << endl;
@@ -591,10 +596,14 @@ int diceInitiative()
 	return dieRoll;
 }
 
-void attack()
+void pAttack(Enemy *enemy, Player *player)
 {
+	int damage;
 
+	cout << "You hit " << (*enemy).name << "for " << damage << endl;
+	(*enemy).health -= (*player).role.damage + (*player).equippedWeapon.damage_bonus;
 }
+
 void displayInventory(vector<ItemSlot>* inventory)
 {
 	for (int i = 0; i < inventory->size(); i++)
@@ -641,22 +650,30 @@ void classSelect(string role, Player player)
 
 	if (role == "Rogue") {
 		player.role.name = Rogue;
+		player.role.maxHealth = 25;
 		player.role.health = 25;
-		player.role.damage = 4-6;
+		player.role.damage = 5;
 		player.role.initiative_bonus = 5;
 	}
 	else if (role == "Warrior") {
 		player.role.name = Warrior;
+		player.role.maxHealth = 35;
 		player.role.health = 35;
-		player.role.damage = 8-10;
+		player.role.damage = 9;
 		player.role.initiative_bonus = 0;
 	}
 	else {
 		player.role.name = Wizard;
 		player.role.health = 30;
-		player.role.damage = 6-8;
+		player.role.maxHealth = 30;
+		player.role.damage = 7;
 		player.role.initiative_bonus = 2;
 	}
+}
+
+void fillHealth(Player *player)
+{
+	(*player).role.health = (*player).role.maxHealth;
 }
 
 void invTransaction(vector<ItemSlot>* inventory, vector<ItemSlot>* inventory2, int choice)
