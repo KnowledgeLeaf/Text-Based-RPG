@@ -60,18 +60,21 @@ public:
 	string name;
 	int value;
 };
+
 class Consumable : public Item
 {
 public:
 	int uses;
 	void use();
 };
+
 class Wearable : public Item
 {
 public:
 	int initiative_bonus = 0;
 	bool equipped = true;
 };
+
 class Weapon : public Item
 {
 public:
@@ -86,6 +89,7 @@ public:
 	Item item;
 	int qty;
 };
+
 ItemSlot::ItemSlot(string name, int value, int quantity)
 {
 	item.name = name;
@@ -102,6 +106,7 @@ public:
 	int damage;
 	int initiative_bonus;
 };
+
 class Player
 {
 public:
@@ -122,17 +127,19 @@ class Enemy
 	int mDamage;
 public:
 	Enemy(string name = "Enemy", int initiative = 0, int damage = 0, int health = 0, int armor = 0);
-    string name;
+	string name;
 	int health;
-    int initiative;
+	int initiative;
 	int armor;
-	void virtual attack(int &health, string enemyName) const;
+	void virtual attack(int& health, string enemyName) const;
 };
+
 Enemy::Enemy(string name, int initiative, int damage, int health, int armor) :
 
 	mDamage(damage)
 {}
-void Enemy::attack(int &health, string enemyName) const
+
+void Enemy::attack(int& health, string enemyName) const
 {
 	cout << enemyName << " hits you for " << mDamage << "damage." << endl;
 	(health) -= mDamage;
@@ -144,6 +151,7 @@ public:
 	int hp;
 	Thief(string name, int health, int initiative, int damage, int armor);
 };
+
 Thief::Thief(string name, int initiative, int damage, int health, int armor)
 {
 	Enemy(name, initiative, damage, health, armor);
@@ -165,7 +173,7 @@ void discard();
 void displayInventory(vector<ItemSlot>* inventory);
 void invTransaction(vector<ItemSlot>* inventory, vector<ItemSlot>* inventory2, int choice);
 void printName(string playerFirstName, string playerLastName);
-void classSelect(Player *player);
+void classSelect(Player* player);
 void fillHealth(Player* player);
 void backpack(vector<ItemSlot>* inventory, Player* player);
 void askNumber(int choice, int low, int high);
@@ -178,9 +186,11 @@ int main()
 	string pLN;
 	int age;
 	char yesno = 'n';
-	int choice;
-	string role;
 
+//choices
+	int choice;
+	int action;
+	string role;
 	Item pain_meds;
 	Item fancy_book;
 	Item dagger;
@@ -243,268 +253,332 @@ int main()
 	// Learned
 	// Brute
 
-	cout << "What is your first name?"<< endl;
-	cin >> pFN;
-	cout << "\nWhat is your last name?" << endl;
-	cin >> pLN;
+	std::cout << "What is your first name?" << std::endl;
+	std::cin >> pFN;
+	std::cout << "\nWhat is your last name?" << std::endl;
+	std::cin >> pLN;
 	classSelect(&player);
-	cout << "\nLastly, how old are you?\n";
-	cin >> age;
+	std::cout << "\nLastly, how old are you?\n";
+	std::cin >> age;
 	player.age = age;
 
-	do{
-    
-		cout << "\nFirst Name: " << pFN << "\nLast Name: " << pLN << "\nRole: " << player.role.name << "\nAge: " << age << endl;
+	do
+	{
+
+		std::cout << "\nFirst Name: " << pFN << "\nLast Name: " << pLN << "\nRole: " << player.role.name << "\nAge: " << age << std::endl;
 		fillHealth(&player);
 
-		cout << "\n--------------------------------------------\nYou are a princess sleeping in bed." << endl;
-		cout << "You wake up uncomfortable and decide it might be best to do something about it.\n--------------------------------------------" << endl;
+		std::cout << "\n--------------------------------------------\nYou are a princess sleeping in bed." << std::endl;
+		std::cout << "You wake up uncomfortable and decide it might be best to do something about it.\n--------------------------------------------" << endl;
 
-		cout << "You can either:\n"
+		std::cout << "You can either:\n"
 			"1. Go to the Well\n"
 			"2. Go to the Store\n"
 			"3. Check under your mattress\n"
-			"4. Open Backpack\n" << endl;
-		cout << "Choice: ";
-		cin >> choice;
-		cout << endl;
+			"4. Open Backpack\n" << std::endl;
+		std::cout << "Choice: ";
+		std::cin >> choice;
+		std::cout << std::endl;
 
 		switch (choice)
 		{
-			//        choice 1 (go to well)
-			//            cout: 1. Draw some water
-			//                  2. Nevermind, someone else can do it
-			//                  3. Look around the well
-			//                  4. Open Backpack
-			//
-			//            cin choice
-			//
-			//            switch statement
-			//            {            
-			//            choice 1
-			//                get bucket of water
-			//                    add bucket of water to inventory
-			//                tired back to bed(tbtb)
-			//                break out
-			//
-			//            choice 2 
-			//                tbtb
-			//                break out
-			//
-			//            choice 3 
-			//                explore/ find a coin
-			//                    add coin to player money
-			//                battle function(thief)
-			//                tbtb
-			//                break out
-			//            }
-			//        choice 2 (go to store)
-			//        {
-			//            cin choice: 1. Rob Store
-			//                        2. Enter shop
-			//                        3. Open Backpack
-			//
-			//            switch choice 1 (sneak out back and try to rob){
-			//                rob store
-			//                battle function(thief)
-			//                tbtb
-			//                break out
-			//       
-			//            choice 2 (buy pain meds)
-			//            {
-			//                Enter shop mode
-			//                switch case 0:
-			cout << "\nShopkeep: Well hi, ";
-			printName(pFN, pLN);
-			cout << "! How can I help you today? \n ";
-			do
+		case 1:
+			//go to well
+			std::cout << "you go to the well and remember that you have an empty bucket that you could fill with water.\n"
+				"Also, while strolling you realize that the scenery around here is very pretty,\n it might serve you well to look around for a bit.\n"
+				"However, you also do still feel tired and might consider just going back to bed.\n"
+				"Lastly as always you can open your back pack to check what inside\n"
+				"choices: 1. Get water.\n\t2.Look around and admire the scenery.\n\t3.You're tired so you go back to bed\n\t4.Open Backpack.";
+			std::cin >> action;
+			switch (action)
 			{
-				for (;;)
-				{
-					cout << "\n0 - I want to make a purchase!\n1 - I want to sell my items!\n2 - I would like to leave!\n\nChoice: " << flush;
-					cin >> business;
-					if (cin.fail())
-					{
-						cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
-						cin.clear();
-						cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-						continue;
-					}
-					if (business < 0 || business > 3)
-					{
-						cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
-						continue;
-					}
-					break;
-				}
-				switch (business)
-				{
-				case 0:
-					cout << "\nShopkeep: A paying customer? Of course, happy to help!\nHave a look at my wares!\n\nWares:\n";
-					displayInventory(&merchant.inventory);
+			case 1:
+				//get water
+				break;
+			case 2:
+				//coin fight
+				break;
+			case 3:
+				//tbtb
+				break;
+			case 4:
+				backpack(&player.inventory, &player);
+				break;
+			default:
+				std::cout << "uhh ohh we messed up ohh well damn";
+				break;
+			}
+			break;
+		case 2:
+			{
+			//go to store
+			std::cout << "On the way to the store you check your pockts and realize you have " << player.pGold << "in your pocket."
+				"\nWith this in mind do you want to enter the front door or sneak around back"
+				"action 1: go inside\n 2: go around back";
 
+			switch (action)
+			case 1:
+				//SHOPPING
+				std::cout << "\nShopkeep: Well hi, ";
+				printName(pFN, pLN);
+				std::cout << "! How can I help you today? \n ";
+				do
+				{
 					for (;;)
 					{
-						cout << "What would you like to buy? (0 to Exit) " << flush;
-						cin >> choice;
-						if (cin.fail())
+						std::cout << "\n0 - I want to make a purchase!\n1 - I want to sell my items!\n2 - I would like to leave!\n\nChoice: " << flush;
+						std::cin >> business;
+						if (std::cin.fail())
 						{
 							cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
-							cin.clear();
-							cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+							std::cin.clear();
+							std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 							continue;
 						}
-						if (choice < 0 || choice > merchant.inventory.size())
+						if (business < 0 || business > 3)
 						{
 							cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
 							continue;
 						}
 						break;
 					}
-
-					choice -= 1;
-
-					if (choice < merchant.inventory.size() || choice > 0)
+					switch (business)
 					{
-						if (merchant.inventory[choice].qty == 0)
+					case 0:
+						std::cout << "\nShopkeep: A paying customer? Of course, happy to help!\nHave a look at my wares!\n\nWares:\n";
+						displayInventory(&merchant.inventory);
+
+						for (;;)
 						{
-							cout << "\nShopkeep: Outta luck, wish I had more to sell you, but I don't.\n\nCan I help you with something else?\n";
-							break;
-						}
-
-						cout << "\nWould you like to buy the " << merchant.inventory[choice].item.name << "?" << endl;
-						cout << "Your current gold: " << player.pGold << " $" << endl;
-						cout << "This " << merchant.inventory[choice].item.name << " costs " << merchant.inventory[choice].item.value << "$" << endl;
-
-						if (player.pGold < merchant.inventory[choice].item.value)
-						{
-							cout << "Sorry it looks like you don't have enough gold for that.\n\nCan I help you with something else?\n";
-							break;
-						}
-
-						cout << "Will you buy this " << merchant.inventory[choice].item.name << "? (y/n)\n" << endl;
-						cin >> yesno;
-
-						if (yesno == 'y')
-						{
-							cout << "\nYou bought the " << merchant.inventory[choice].item.name << "!" << endl;
-							player.pGold -= merchant.inventory[choice].item.value;
-							merchant.inventory[choice].qty -= 1;
-							invTransaction(&player.inventory, &merchant.inventory, choice);
-							cout << "your remaining gold balance is : " << player.pGold << "$" << endl;
-						}
-						else
-						{
-							cout << "you did not buy the " << merchant.inventory[choice].item.name << "." << endl;
-						}
-					}
-
-					cout << "\nIs there anything else I can help you with?\n\n";
-					break;
-
-				case 1:
-					cout << "\nShopkeep: I'm always happy to buy stuff you don't need, materials are getting scarce here.\n";
-					cout << "\nYour items:\n";
-					displayInventory(&player.inventory);
-
-					for (;;)
-					{
-						cout << "Which item do you want to sell? (0 To Exit) " << flush;
-						cin >> choice;
-
-						if (cin.fail())
-						{
-							cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
-							cin.clear();
-							cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-							continue;
-						}
-
-						if (choice < 0 || choice > player.inventory.size())
-						{
-							cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
-							continue;
-						}
-
-						break;
-					}
-
-					choice -= 1;
-
-					if (choice < player.inventory.size() || choice > 0)
-					{
-						cout << "\nWould you like to sell the " << player.inventory[choice].item.name << "?" << endl;
-						cout << "This " << player.inventory[choice].item.name << " will pay " << player.inventory[choice].item.value / 2 << "$" << endl;
-						cout << "Merchant gold: " << merchant.mGold << "$" << endl;
-						cout << "Will you sell this " << player.inventory[choice].item.name << "? (y/n)" << endl;
-						cin >> yesno;
-
-						if (yesno == 'y')
-						{
-							cout << "You sold the " << player.inventory[choice].item.name << "!" << endl;
-							player.pGold += player.inventory[choice].item.value / 2;
-							cout << "your remaining gold balance is : " << player.pGold << "$" << endl;
-							invTransaction(&merchant.inventory, &player.inventory, choice);
-
-							if (player.inventory[choice].qty > 1)
+							std::cout << "What would you like to buy? (0 to Exit) " << flush;
+							std::cin >> choice;
+							if (std::cin.fail())
 							{
-								player.inventory[choice].qty -= 1;
+								cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
+								std::cin.clear();
+								std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+								continue;
+							}
+							if (choice < 0 || choice > merchant.inventory.size())
+							{
+								cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
+								continue;
+							}
+							break;
+						}
+
+						choice -= 1;
+
+						if (choice < merchant.inventory.size() || choice > 0)
+						{
+							if (merchant.inventory[choice].qty == 0)
+							{
+								std::cout << "\nShopkeep: Outta luck, wish I had more to sell you, but I don't.\n\nCan I help you with something else?\n";
+								break;
+							}
+
+							std::cout << "\nWould you like to buy the " << merchant.inventory[choice].item.name << "?" << endl;
+							std::cout << "Your current gold: " << player.pGold << " $" << endl;
+							std::cout << "This " << merchant.inventory[choice].item.name << " costs " << merchant.inventory[choice].item.value << "$" << endl;
+
+							if (player.pGold < merchant.inventory[choice].item.value)
+							{
+								std::cout << "Sorry it looks like you don't have enough gold for that.\n\nCan I help you with something else?\n";
+								break;
+							}
+
+							std::cout << "Will you buy this " << merchant.inventory[choice].item.name << "? (y/n)\n" << endl;
+							std::cin >> yesno;
+
+							if (yesno == 'y')
+							{
+								std::cout << "\nYou bought the " << merchant.inventory[choice].item.name << "!" << endl;
+								player.pGold -= merchant.inventory[choice].item.value;
+								merchant.inventory[choice].qty -= 1;
+								invTransaction(&player.inventory, &merchant.inventory, choice);
+								std::cout << "your remaining gold balance is : " << player.pGold << "$" << endl;
 							}
 							else
 							{
-								vector<ItemSlot>::iterator eraser;
-								eraser = player.inventory.begin() + choice;
-								player.inventory.erase(eraser);
+								std::cout << "you did not buy the " << merchant.inventory[choice].item.name << "." << endl;
 							}
 						}
-						else
+
+						std::cout << "\nIs there anything else I can help you with?\n\n";
+						break;
+
+					case 1:
+						std::cout << "\nShopkeep: I'm always happy to buy stuff you don't need, materials are getting scarce here.\n";
+						std::cout << "\nYour items:\n";
+						displayInventory(&player.inventory);
+
+						for (;;)
 						{
-							cout << "You did not sell the " << player.inventory[choice].item.name << "." << endl;
+							std::cout << "Which item do you want to sell? (0 To Exit) " << flush;
+							std::cin >> choice;
+
+							if (std::cin.fail())
+							{
+								cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
+								std::cin.clear();
+								std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+								continue;
+							}
+
+							if (choice < 0 || choice > player.inventory.size())
+							{
+								cerr << "\nShopkeep: What? I couldn't hear you.\n" << endl;
+								continue;
+							}
+
+							break;
 						}
-					}
 
-					cout << "\nIs there anything else I can help you with?\n\n";
-					break;
+						choice -= 1;
 
-				case 2:
-					cout << "\nShopkeep: Well, if you change your mind, you know where to find me.\n";
-					break;
+						if (choice < player.inventory.size() || choice > 0)
+						{
+							std::cout << "\nWould you like to sell the " << player.inventory[choice].item.name << "?" << std::endl;
+							std::cout << "This " << player.inventory[choice].item.name << " will pay " << player.inventory[choice].item.value / 2 << "$" << std::endl;
+							std::cout << "Merchant gold: " << merchant.mGold << "$" << std::endl;
+							std::cout << "Will you sell this " << player.inventory[choice].item.name << "? (y/n)" << std::endl;
+							std::cin >> yesno;
 
-				default:
-					break;
+							if (yesno == 'y')
+							{
+								std::cout << "You sold the " << player.inventory[choice].item.name << "!" << std::endl;
+								player.pGold += player.inventory[choice].item.value / 2;
+								std::cout << "your remaining gold balance is : " << player.pGold << "$" << std::endl;
+								invTransaction(&merchant.inventory, &player.inventory, choice);
 
-				} while (business < 0 && business > 1);
+								if (player.inventory[choice].qty > 1)
+								{
+									player.inventory[choice].qty -= 1;
+								}
+								else
+								{
+									vector<ItemSlot>::iterator eraser;
+									eraser = player.inventory.begin() + choice;
+									player.inventory.erase(eraser);
+								}
+							}
+							else
+							{
+								std::cout << "You did not sell the " << player.inventory[choice].item.name << "." << std::endl;
+							}
+						}
 
-			} while (business != 2);
+						std::cout << "\nIs there anything else I can help you with?\n\n";
+						break;
 
-			//                when you leave shop
-			//
-			//          !!!!!!!!!!!!!!!!!!!!! find item goes here!!!!!!!!!!!!!!
-			//  if player leaves shop and has fancy book (inventory find item from assignment 1)
-			//            {
-			//            encounter scholarly fellow
-			//            riddle:
-			//                    if correct
-			//                    {
-			//                        make friend
-			//                        tbtb
-			//                        break out
-			//                    }
-			//                    else
-			//                    {
-			//                        battle function(learned)
-			//                        tbtb
-			//                        break out
-			//                    }
-			//            }
-			//            else
-			//            {
-			//                tbtb
-			//                break out
-			//            }
-			//            
-			//        choice 3 (check under bed)
-			        {
+					case 2:
+						std::cout << "\nShopkeep: Well, if you change your mind, you know where to find me.\n";
+						break;
+
+					default:
+						break;
+
+					} while (business < 0 && business > 1);
+
+				} while (business != 2);//shop mechanic is hidden here <--
+				break;
+
+			case 2:
+				//go around back
+				std::cout << "as you make your way around to the back of the ";
+				fight(Thief, player, Role, Wearable);// i tried here but its weird
+				break;
+			}
+		case 3://check under mattress
+			switch (action)
+			case 1://take the pea
+				break;
+			case 2://eat the pea
+
+				break;
+			case 3://ignore the pea
+				fight(Brute, player, Role, Wearable);
+				break;
+
+			
+			break;
+		case 4:
+			//open backpack
+			break;
+		default: std::cout << "uhh ohh we messed up somewhere";
+
+		} // end switch choice
+
+		//        choice 1 (go to well)
+		//            cout: 1. Draw some water
+		//                  2. Nevermind, someone else can do it
+		//                  3. Look around the well
+		//                  4. Open Backpack
+		//
+		//            cin choice
+		//
+		//            switch statement
+		//            {            
+		//            choice 1
+		//                get bucket of water
+		//                    add bucket of water to inventory
+		//                tired back to bed(tbtb)
+		//                break out
+		//
+		//            choice 2 
+		//                tbtb
+		//                break out
+		//
+		//            choice 3 
+		//                explore/ find a coin
+		//                    add coin to player money
+		//                battle function(thief)
+		//                tbtb
+		//                break out
+		//            }
+		//        choice 2 (go to store)
+		//        {
+		//            cin choice: 1. Rob Store
+		//                        2. Enter shop
+		//                        3. Open Backpack
+		//
+		//            switch choice 1 (sneak out back and try to rob){
+		//                rob store
+		//                battle function(thief)
+		//                tbtb
+		//                break out
+		//       
+		//            choice 2 (buy pain meds)
+		//            {
+		//                Enter shop mode
+		//                when you leave shop
+		//
+		//          !!!!!!!!!!!!!!!!!!!!! find item goes here!!!!!!!!!!!!!!
+		//  if player leaves shop and has fancy book (inventory find item from assignment 1)
+		//            {
+		//            encounter scholarly fellow
+		//            riddle:
+		//                    if correct
+		//                    {
+		//                        make friend
+		//                        tbtb
+		//                        break out
+		//                    }
+		//                    else
+		//                    {
+		//                        battle function(learned)
+		//                        tbtb
+		//                        break out
+		//                    }
+		//            }
+		//            else
+		//            {
+		//                tbtb
+		//                break out
+		//            }
+		//            
+		//        choice 3 (check under bed)
+		//{
 			//            cin choice: 1. Take pea
 			//                        2. C0NSUME pea
 			//                        3. Ignore pea
@@ -539,11 +613,11 @@ int main()
 			//                end of do loop 1
 			//            default:
 			//            break;
-					}
-					case 4:
+		//}
+					/*case 4:
 						backpack(&player.inventory, &player);
-						break;
-		}
+						break;*/
+						//}
 	} while (player.role.health > 0 && (player.win = false));
 	return 0;
 }
@@ -556,41 +630,41 @@ void fight(Enemy enemy, Player player, Role role, Wearable wearable)
 	bool playerTurnHad;
 	int playerChoice;
 
-		dice = diceInitiative();
+	dice = diceInitiative();
 
 	playerInitiative = (dice + role.initiative_bonus + wearable.initiative_bonus);
 
 	do
-    {
-        if ((enemy.initiative > playerInitiative) || (playerTurnHad == true) && (enemy.health > 0))
-        {
+	{
+		if ((enemy.initiative > playerInitiative) || (playerTurnHad == true) && (enemy.health > 0))
+		{
 			enemy.attack(role.health, enemy.name);
 			playerTurnHad = false;
-        }
+		}
 
-        if (playerTurnHad == false && player.role.health > 0)
-        {
-//			do player turn
+		if (playerTurnHad == false && player.role.health > 0)
+		{
+			//			do player turn
 			cout << "Player Health: " << player.role.health << "\t Enemy Health: " << enemy.health << endl;
 			cout << "1. Attack\n 2. Use Item\n 3. Run Away!\n";
 			cin >> playerChoice;
 
 			switch (playerChoice)
 			{
-				case 1:
-					pAttack(&enemy, &player);
-					break;
-				case 2:
-					backpack(&player.inventory, &player);
-					continue;
-				case 3:
-					break;
-				default:
-					break;
+			case 1:
+				pAttack(&enemy, &player);
+				break;
+			case 2:
+				backpack(&player.inventory, &player);
+				continue;
+			case 3:
+				break;
+			default:
+				break;
 			}
 			cout << "Turn change!" << endl;
 			playerTurnHad = true;
-        }
+		}
 	} while (player.role.health > 0 && enemy.health > 0 && playerChoice != 3);
 	//    Congratz player! Or Tell them they dead.
 	//    Add loot to inventory
@@ -600,17 +674,17 @@ int diceInitiative()
 {
 	int randomNumber;
 	int dieRoll;
-	
+
 	randomNumber = rand();
 	dieRoll = (randomNumber % 20) + 1;
 
 	return dieRoll;
 }
 
-void pAttack(Enemy *enemy, Player *player)
+void pAttack(Enemy* enemy, Player* player)
 {
 	int damage;
-	damage =(*player).role.damage + (*player).equippedWeapon.damage_bonus;
+	damage = (*player).role.damage + (*player).equippedWeapon.damage_bonus;
 
 	cout << "You hit " << (*enemy).name << "for " << damage << endl;
 	(*enemy).health -= damage;
@@ -648,7 +722,7 @@ void backpack(vector<ItemSlot>* inventory, Player* player)
 			cout << "\tValue: " << (*inventory)[i].item.value << endl;
 			cout << "\tQuantity: " << (*inventory)[i].qty << endl << endl;
 		}
-	 
+
 		cout << "(0 to Exit) Choice: ";
 		cin >> pick;
 		if (pick > 0 && pick <= (*inventory).size())
@@ -709,7 +783,7 @@ void backpack(vector<ItemSlot>* inventory, Player* player)
 	} while (pick != 0);
 }
 
-void classSelect(Player *player) 
+void classSelect(Player* player)
 {
 	string role;
 
@@ -760,7 +834,7 @@ void classSelect(Player *player)
 	}
 }
 
-void fillHealth(Player *player)
+void fillHealth(Player* player)
 {
 	(*player).role.health = (*player).role.maxHealth;
 }
