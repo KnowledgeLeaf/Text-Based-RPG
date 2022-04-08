@@ -542,7 +542,7 @@ int main()
 				break; // end of CASE 1
 
 			case 2://go around back
-				std::cout << "As you make your way around to the back of the store to go and rob it, you run in to someone who is reading a book, and bump the book out of there hand causing them to loose there page.\n'I was in the middle of a really good part'.\n\n";
+				std::cout << "As you make your way around to the back of the store to go and rob it, you run in to someone who is reading a book, and bump the book out of their hand causing them to loose there page.\n'I was in the middle of a really good part'.\n\n";
 				fight(TheLearned, player, player.role, player.equippedWearable,currentEnemy);
 				break;
 
@@ -559,7 +559,7 @@ int main()
 			//sanitized
 			for (;;)
 			{
-			std::cout << "Under your matress you find a pea, and wonder 'how did that get there anyway?'\nIt seems that you would have a couple of options to do with that pea.\n1.take it\n2.eat it\n3.ignore it.\n\nchoice:" << flush;;
+			std::cout << "Under your matress you find a pea, and wonder 'how did that get there anyway?'\nIt seems that you would have a couple of options to do with that pea.\n1. Take it\n2. Eat it\n3. Ignore it.\n\nchoice:" << flush;;
 			std::cin >> action;
 				if (std::cin.fail())
 				{
@@ -732,7 +732,7 @@ void backpack(vector<ItemSlot> *inventory, Player *player, Enemy *current)
 				}
 				else
 				{
-					std::cout << "You cannot equip this";
+					std::cout << "\nYou cannot equip this\n\n";
 				}
 				break;
 			case 2:
@@ -878,7 +878,7 @@ void fight(Enemy &enemy, Player &player, Role &role, Wearable &wearable, Enemy *
 			for (;;) {
 
 				std::cout << "Player Health: " << player.role.health << "\t Enemy Health: " << enemy.mHealth << endl;
-				std::cout << "\t1. Attack\n\t2. Use Item\n\t3. Run Away!\n\nChoice:"<<flush;
+				std::cout << "\t1. Attack\n\t2. Use Item\n\t3. Run Away!\n\nChoice: "<<flush;
 				std::cin >> playerChoice; 
 				
 				if (std::cin.fail())
