@@ -249,7 +249,7 @@ int main()
 		std::cin >> age;
 		if (std::cin.fail())
 		{
-			cerr << "\n That choice is invalid.\n" << endl;
+			cerr << "\nThat choice is invalid.\n" << endl;
 			std::cin.clear();
 			std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			continue;
@@ -282,7 +282,7 @@ int main()
 		
 			if (std::cin.fail())
 			{
-				cerr << "\n That choice is invalid.\n" << endl;
+				cerr << "\nThat choice is invalid.\n" << endl;
 				std::cin.clear();
 				std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 				continue;
@@ -290,7 +290,7 @@ int main()
 			if (choice < 1 || choice > 4)
 
 			{
-				cerr << "\n That choice is invalid.\n" << endl;
+				cerr << "\nThat choice is invalid.\n" << endl;
 				continue;
 			}
 			break;
@@ -306,12 +306,12 @@ int main()
 				std::cout << "You go to the well and remember that you have an empty bucket that you could fill with water.\n"
 					"Also, while strolling you realize that the scenery around here is very pretty.\nIt might serve you well to look around for a bit.\n"
 					"However, you also do still feel tired and might consider just going back to bed.\n"
-					"Lastly as always you can open your back pack to check what inside\n\n"
+					"Lastly as always you can open your back pack to check what inside.\n\n"
 					"\n\t1.Get water.\n\t2.Look around and admire the scenery.\n\t3.You're tired so you go back to bed\n\t4.Open Backpack.\nChoice:" << flush;
 				std::cin >> action;
 				if (std::cin.fail())
 				{
-					cerr << "\n That choice is invalid.\n" << endl;
+					cerr << "\nThat choice is invalid.\n" << endl;
 					std::cin.clear();
 					std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 					continue;
@@ -319,7 +319,7 @@ int main()
 				if (action < 1 || action > 4)
 
 				{
-					cerr << "\n That choice is invalid.\n" << endl;
+					cerr << "\nThat choice is invalid.\n" << endl;
 					continue;
 				}
 				break;
@@ -330,15 +330,13 @@ int main()
 
 			case 1://get water
 				waterBucketCheck(player);
-
-				std::cout << "\nYou fill your bucket with water, feel tired and head back to bed with your water bucket now full.";
 				break;
 			case 2://coin fight
 				std::cout << "\nAs you look around you find a coin on the ground, as you go to pick it up you feel a dagger being pressed up against your back.\n'that coin is MINE and so is all of the rest of your money.'\n\n";
 				fight(TheThief, player, player.role, player.equippedWearable,currentEnemy);
 				break;
 			case 3://tbtb
-				std::cout << "\nYou feel tiredness start to take you over and decide that your bed is the most comfortable spot";
+				std::cout << "\nYou feel tiredness start to take you over and decide that your bed is the most comfortable spot.\n";
 				break;
 			case 4://Open Backpack
 				std::cout << "\nYou decide to open your backpack to check what is inside.";
@@ -360,7 +358,7 @@ int main()
 					std::cin >> action;
 					if (std::cin.fail())
 					{
-						cerr << "\n That choice is invalid.\n" << endl;
+						cerr << "\nThat choice is invalid.\n" << endl;
 						std::cin.clear();
 						std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 						continue;
@@ -368,7 +366,7 @@ int main()
 					if (action < 1 || action > 2)
 
 					{
-						cerr << "\n That choice is invalid.\n" << endl;
+						cerr << "\nThat choice is invalid.\n" << endl;
 						continue;
 					}
 					break;
@@ -559,11 +557,11 @@ int main()
 			//sanitized
 			for (;;)
 			{
-			std::cout << "Under your matress you find a pea, and wonder 'how did that get there anyway?'\nIt seems that you would have a couple of options to do with that pea.\n1. Take it\n2. Eat it\n3. Ignore it.\n\nchoice:" << flush;;
+			std::cout << "Under your matress you find a pea, and wonder 'how did that get there anyway?'\nIt seems that you would have a couple of options to do with that pea.\n1. Take it\n2. Eat it\n3. Ignore it.\n\nChoice: " << flush;;
 			std::cin >> action;
 				if (std::cin.fail())
 				{
-					cerr << "\n That choice is invalid.\n" << endl;
+					cerr << "\nThat choice is invalid.\n" << endl;
 					std::cin.clear();
 					std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 					continue;
@@ -571,7 +569,7 @@ int main()
 				if (action < 1 || action > 3)
 
 				{
-					cerr << "\n That choice is invalid.\n" << endl;
+					cerr << "\nThat choice is invalid.\n" << endl;
 					continue;
 				}
 				break;
@@ -579,7 +577,7 @@ int main()
 			switch (action)
 			{
 			case 1://take the pea
-				std::cout << "\nYou decide to take the pea with you and put it into your backpack then go back to bed\n";
+				std::cout << "\nYou decide to take the pea with you and put it into your backpack then go back to bed.\n";
 				slot.item = pea;
 				slot.qty = 1;
 				player.inventory.push_back(slot);
@@ -609,7 +607,7 @@ int main()
 		} // end switch choice
 	} while ((player.role.health > 0) && (player.win == false));
 	if (player.win = true) {
-		std::cout << "\nGame Over.\n\n";
+		std::cout << "\nGame Over. Congratz! You Won!\n\n";
 	}
 	else {
 		std::cout << "\nYou Died.\n\nGame Over.\n\n";
@@ -670,7 +668,7 @@ void backpack(vector<ItemSlot> *inventory, Player *player, Enemy *current)
 		std::cin >> pick;
 			if (std::cin.fail())
 			{
-				cerr << "\n That choice is invalid.\n" << endl;
+				cerr << "\nThat choice is invalid.\n" << endl;
 				std::cin.clear();
 				std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 				continue;
@@ -692,7 +690,7 @@ void backpack(vector<ItemSlot> *inventory, Player *player, Enemy *current)
 				
 				if (std::cin.fail())
 				{
-					cerr << "\n That choice is invalid.\n" << endl;
+					cerr << "\nThat choice is invalid.\n" << endl;
 					std::cin.clear();
 					std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 					continue;
@@ -700,7 +698,7 @@ void backpack(vector<ItemSlot> *inventory, Player *player, Enemy *current)
 				if (select < 0 || select > 3)
 
 				{
-					cerr << "\n That choice is invalid.\n" << endl;
+					cerr << "\nThat choice is invalid.\n" << endl;
 					continue;
 				}
 				break;
@@ -846,6 +844,10 @@ void discardItem(int choice, Player &player)
 {
 	vector<ItemSlot>::iterator eraser;
 	eraser = player.inventory.begin() + choice;
+	if ((*eraser).item.mName == "Water Bucket")
+	{
+		player.likesWater = false;
+	}
 	player.inventory.erase(eraser);
 }
 
@@ -883,7 +885,7 @@ void fight(Enemy &enemy, Player &player, Role &role, Wearable &wearable, Enemy *
 				
 				if (std::cin.fail())
 				{
-					cerr << "\n That choice is invalid.\n" << endl;
+					cerr << "\nThat choice is invalid.\n" << endl;
 					std::cin.clear();
 					std::cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 					continue;
@@ -891,7 +893,7 @@ void fight(Enemy &enemy, Player &player, Role &role, Wearable &wearable, Enemy *
 				if (playerChoice < 1 || playerChoice > 3)
 
 				{
-					cerr << "\n That choice is invalid.\n" << endl;
+					cerr << "\nThat choice is invalid.\n" << endl;
 					continue;
 				}
 				break;
@@ -966,7 +968,7 @@ void waterBucketCheck(Player &player)
 	vector<ItemSlot>::iterator iter;
 	bool itemFound = false;
 	
-	if (player.likesWater = true)
+	if (player.likesWater == true)
 	{
 		for (iter = (player.inventory).begin(); iter != (player.inventory).end(); iter++)
 		{
@@ -976,9 +978,10 @@ void waterBucketCheck(Player &player)
 				itemFound = true;
 			}
 		}
+		std::cout << "\nYou fill your bucket with water, feel tired and head back to bed with your water bucket now full.\n";
 	}
 	else {
-		std::cout << "It seems when you threw out your water bucket earlier you managed to punch a hole in the bottom and now it doesn't work.\n\nTLDR: NO WATTAH FOR U.";
+		std::cout << "\nIt seems when you threw out your water bucket earlier you managed to punch a hole in the bottom and now it doesn't work.\n\nTLDR: NO WATTAH FOR U.";
 	}
 
 }
@@ -987,12 +990,12 @@ void useItem(Item item, Player& player, Enemy *enemy)
 {
 	if (item.mName == "Pea") {
 
-		std::cout << "Having eaten the pea you suddenly feel yourself grow in size.\nYou look at the mirror on the wall and indeed you have grown,\n"
+		std::cout << "\nHaving eaten the pea you suddenly feel yourself grow in size.\nYou look at the mirror on the wall and indeed you have grown,\n"
 			"grown more powerful than even the prince himself that was fated to save you from this dastardly castle.\n\nCongratz player you have just won the never ending life of a princess\n\n";
 		player.win = true;
 	}
 
-	if (item.mName == "Pain Meds") {
+	else if (item.mName == "Pain Meds") {
 		std::cout << "You take the pain meds and feel much better(health restored to full)";
 		player.role.health = player.role.maxHealth;
 		
