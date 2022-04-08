@@ -140,17 +140,17 @@ public:
 
 void pAttack(Enemy* enemy, Player* player);
 void askNumber(int choice, int low, int high);
-void backpack(vector<ItemSlot>* inventory, Player* player);
+void backpack(vector<ItemSlot>* inventory, Player* player,Enemy *current);
 void classSelect(Player* player);
 int diceInitiative();
 void discardItem(int choice, Player &player);
 void displayInventory(vector<ItemSlot>* inventory);
-void fight(Enemy& enemy, Player& player, Role& role, Wearable& wearable);
+void fight(Enemy& enemy, Player& player, Role& role, Wearable& wearable, Enemy *current);
 void fillHealth(Player* player);
 void invTransaction(vector<ItemSlot>* inventory, vector<ItemSlot>* inventory2, int choice);
 void printName(string playerFirstName, string playerLastName);
 void waterBucketCheck(Player& player);
-void useItem(Item item, Player& player, Enemy enemy);
+void useItem(Item item, Player& player, Enemy *enemy);
 void useItem(Item item, Player& player);
 
 int main()
@@ -161,6 +161,7 @@ int main()
 	string pLN;
 	int age;
 	char yesno = 'n';
+	bool fighting = false;
 	
 
 	//choices
@@ -174,6 +175,7 @@ int main()
 	Item boots;
 	Item water_bucket;
 	Item pea;
+	Enemy *currentEnemy = 0;
 
 	pain_meds.mName = "Pain Meds";
 	pain_meds.value = 100;
@@ -333,14 +335,14 @@ int main()
 				break;
 			case 2://coin fight
 				std::cout << "\nAs you look around you find a coin on the ground, as you go to pick it up you feel a dagger being pressed up against your back.\n'that coin is MINE and so is all of the rest of your money.'\n\n";
-				fight(TheThief, player, player.role, player.equippedWearable);
+				fight(TheThief, player, player.role, player.equippedWearable,currentEnemy);
 				break;
 			case 3://tbtb
 				std::cout << "\nYou feel tiredness start to take you over and decide that your bed is the most comfortable spot";
 				break;
 			case 4://Open Backpack
 				std::cout << "\nYou decide to open your backpack to check what is inside.";
-				backpack(&player.inventory, &player);
+				backpack(&player.inventory, &player,currentEnemy);
 				break;
 			default:
 				std::cout << "\nuhh ohh we messed up ohh well damn";
@@ -541,7 +543,7 @@ int main()
 
 			case 2://go around back
 				std::cout << "As you make your way around to the back of the store to go and rob it, you run in to someone who is reading a book, and bump the book out of there hand causing them to loose there page.\n'I was in the middle of a really good part'.\n\n";
-				fight(TheLearned, player, player.role, player.equippedWearable);
+				fight(TheLearned, player, player.role, player.equippedWearable,currentEnemy);
 				break;
 
 			case 3://go back to bed
@@ -590,7 +592,7 @@ int main()
 
 			case 3://ignore the pea
 				std::cout << "\nYou decide to ignore the pea and try to go back to sleep, uncomfortable and still tired you start to fall into your nightmares.\n A Brute appears\n\n";
-				fight(TheBrute, player, player.role, player.equippedWearable);
+				fight(TheBrute, player, player.role, player.equippedWearable,currentEnemy);
 				break;
 
 			default://uhh ohh
@@ -600,7 +602,7 @@ int main()
 			break;
 
 		case 4://check backpack
-			backpack(&player.inventory, &player);
+			backpack(&player.inventory, &player,currentEnemy);
 			break;
 
 		default: std::cout << "\nLooks like thats not an option you can choose\n";
@@ -646,10 +648,11 @@ void askNumber(int choice, int low, int high)
 	}
 }
 
-void backpack(vector<ItemSlot> *inventory, Player *player)
+void backpack(vector<ItemSlot> *inventory, Player *player, Enemy *current)
 {
 	int pick;
 	int select;
+	bool fighting;
 
 	do
 	{
@@ -733,7 +736,14 @@ void backpack(vector<ItemSlot> *inventory, Player *player)
 				}
 				break;
 			case 2:
-				useItem((*inventory)[pick].item, *player);
+				if (fighting = true) 
+				{
+					useItem((*inventory)[pick].item, *player, current);
+				}
+				else
+				{
+					useItem((*inventory)[pick].item, *player);
+				}
 				break;
 
 			case 3:
@@ -839,7 +849,7 @@ void discardItem(int choice, Player &player)
 	player.inventory.erase(eraser);
 }
 
-void fight(Enemy &enemy, Player &player, Role &role, Wearable &wearable)
+void fight(Enemy &enemy, Player &player, Role &role, Wearable &wearable, Enemy *current)
 {
 	int dice;
 	int diceInitiative();
@@ -848,6 +858,8 @@ void fight(Enemy &enemy, Player &player, Role &role, Wearable &wearable)
 	int playerChoice;
 	playerTurnHad = false;
 	dice = diceInitiative();
+	current = &enemy;
+	
 
 	playerInitiative = (dice + role.initiative_bonus + wearable.initiative_bonus);
 
@@ -893,7 +905,7 @@ void fight(Enemy &enemy, Player &player, Role &role, Wearable &wearable)
 					break;
 				case 2:
 					std::cout << "\nYou riffle through your backpack for something useful.\n";
-					backpack(&player.inventory, &player);
+					backpack(&player.inventory, &player,current);
 					std::cout << "Turn change!" << endl;
 					continue;
 				case 3:
@@ -905,10 +917,12 @@ void fight(Enemy &enemy, Player &player, Role &role, Wearable &wearable)
 			
 			
 			playerTurnHad = true;
+			
 		}
 		if (enemy.mHealth < 0)
 			player.pGold += 50;
 	} while (player.role.health > 0 && enemy.mHealth > 0 && playerChoice != 3);
+	current = 0;
 }
 
 void fillHealth(Player *player)
@@ -969,7 +983,7 @@ void waterBucketCheck(Player &player)
 
 }
 
-void useItem(Item item, Player& player, Enemy enemy)
+void useItem(Item item, Player& player, Enemy *enemy)
 {
 	if (item.mName == "Pea") {
 
@@ -985,7 +999,9 @@ void useItem(Item item, Player& player, Enemy enemy)
 	}
 
 	else if (item.mName == "Smokebomb") {
-		enemy.mHealth = 0;
+		
+		std::cout << "You throw the smokebomb and managed to choke out your foe with it's gas. They die and you manage to steal their coin and get away back to bed.";
+		enemy->mHealth = 0;
 	}
 
 	else {
