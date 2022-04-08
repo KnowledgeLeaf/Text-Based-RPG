@@ -606,7 +606,7 @@ int main()
 		default: std::cout << "\nLooks like thats not an option you can choose\n";
 		} // end switch choice
 	} while ((player.role.health > 0) && (player.win == false));
-	if (player.win = true) {
+	if (player.win == true) {
 		std::cout << "\nGame Over. Congratz! You Won!\n\n";
 	}
 	else {
